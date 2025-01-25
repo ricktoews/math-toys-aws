@@ -6,13 +6,14 @@ from utils import normalize_event
 from phi import phi_first_n
 from calc_decimal import calc_decimal
 from phi import get_phi
+from pythag import get_pythag_by_corner
 
 def lambda_handler(event, context):
-    print("====> Event object before normalization")
-    print(event)
+    #print("====> Event object before normalization")
+    #print(event)
     normalized_event = normalize_event(event)
-    print("====> normalized event object")
-    print(normalized_event)
+    #print("====> normalized event object")
+    #print(normalized_event)
 
     path = normalized_event.get('path', '')
     path_parameters = normalized_event.get('pathParameters', {})
@@ -51,6 +52,14 @@ def lambda_handler(event, context):
             denom = int(denom)
             desc = f"decimal expansion for reciprocal of {denom}"
             data = calc_decimal(1, denom, 10)
+            response['body'] = json.dumps({"description": desc, "data": data})
+
+    elif path.startswith('/pythag'):
+        corner = path_parameters.get('corner', 1)
+        if corner:
+            corner = int(corner)
+            desc = f"Pythagorean triples where c - b = {corner}"
+            data = get_pythag_by_corner(corner)
             response['body'] = json.dumps({"description": desc, "data": data})
 
     else:

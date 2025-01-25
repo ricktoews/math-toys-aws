@@ -21,10 +21,17 @@ def get_phi(max: int):
         [f, l] = [fib(i), lucas(i, 1, 3)]
         phi = "(%d V5 + %d) / 2" % (f, l)
         real = (f * SQRT_5 + l) / 2
-        fib_approx = real / SQRT_5
-        fib_exact = round(fib_approx)
-        diff = fib_exact - fib_approx
-        row = { "nth": i, "fraction": phi, "real": real, "fib_approx": fib_approx, "fib_exact": fib_exact, "diff": diff, "[F, F*SQRT_5, L, L/SQRT_5]": [f, f * SQRT_5, l, l/SQRT_5] }
+        a_sqrt_5 = f * SQRT_5
+        b = l
+        diff = a_sqrt_5 - b
+        row = { 
+            "nth": i,
+            "fraction": phi,
+            #"real": real,
+            "[a*V5, b]": [a_sqrt_5, b],
+            "diff": diff,
+            "[F, L]": [f, l]
+        }
         rows.append(row)
     return rows
 

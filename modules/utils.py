@@ -1,5 +1,5 @@
 import os
-API_GATEWAY = os.environ.get('API_GATEWAY')
+API_GATEWAY = os.environ.get('API_GATEWAY', '/python-lab')
 
 def normalize_event(event):
     """
@@ -33,8 +33,8 @@ def normalize_event(event):
 
     # Fallback for unknown formats
     return {
-        "method": None,
-        "path": None,
+        "method": "",
+        "path": "",
         "pathParameters": {},
         "queryParameters": {},
     }
