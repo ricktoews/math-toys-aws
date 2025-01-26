@@ -22,6 +22,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Specify the region where your Lambda function is hosted
 
+    # Test if the credentials are being loaded correctly (optional)
+    - name: Test Secrets (Optional Debugging Step)
+      run: |
+        echo "AWS Access Key ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
+        echo "AWS Secret Access Key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
     # Create a zip file of your Lambda function code
     - name: Create zip file for Lambda
       run: |
