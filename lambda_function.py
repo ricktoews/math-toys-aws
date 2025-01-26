@@ -40,10 +40,9 @@ def lambda_handler(event, context):
     
 def handle_phi(response, path_parameters):
     up_to_power = path_parameters.get('up_to_power', '1')
-    print("====> handle_phi", up_to_power, type(up_to_power))
     if up_to_power and up_to_power.isdigit():
         up_to_power = int(up_to_power)
-        desc = f"powers of phi, up to power {up_to_power}"
+        desc = f"Powers of phi, up to power {up_to_power}"
         data = get_phi(int(up_to_power))
         response['body'] = json.dumps({"description": desc, "data": data})
     else:
@@ -53,10 +52,9 @@ def handle_phi(response, path_parameters):
 
 def handle_phi_power(response, path_parameters):
     power = path_parameters.get('power', '1')
-    print("====> handle_phi_power", power, type(power))
     if power and power.isdigit():
         power = int(power)
-        desc = f"phi, raised to the power of {power}"
+        desc = f"Phi, raised to the power of {power}"
         data = get_phi_power(int(power))
         response['body'] = json.dumps({"description": desc, "data": data})
     else:
@@ -68,7 +66,7 @@ def handle_dc(response, path_parameters):
     denom = path_parameters.get('denom', 1)
     if denom:
         denom = int(denom)
-        desc = f"decimal expansion for denominator {denom}"
+        desc = f"Decimal expansion for denominator {denom}"
         data = []
         for num in range(1, denom):
             data.append(calc_decimal(num, denom, 10))
@@ -79,7 +77,7 @@ def handle_recip(response, path_parameters):
     denom = path_parameters.get('denom', 1)
     if denom:
         denom = int(denom)
-        desc = f"decimal expansion for reciprocal of {denom}"
+        desc = f"Decimal expansion for reciprocal of {denom}"
         data = calc_decimal(1, denom, 10)
         response['body'] = json.dumps({"description": desc, "data": data})
     return response
