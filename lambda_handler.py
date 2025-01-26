@@ -7,7 +7,7 @@ event = {
         'requestContext': {
             'http': {
                 'method': 'GET',
-                'path': '/python-lab/phi/26'
+                'path': '/phi/26'
             },
             'routeKey': 'GET /phi/{power}'
         },
@@ -19,7 +19,7 @@ event = {
         'requestContext': {
             'http': {
                 'method': 'GET',
-                'path': '/python-lab/recip/7'
+                'path': '/recip/7'
             },
             'routeKey': 'GET /recip/{denom}'
         },
@@ -31,7 +31,7 @@ event = {
         'requestContext': {
             'http': {
                 'method': 'GET',
-                'path': '/python-lab/pythag/1'
+                'path': '/pythag/1'
             },
             'routeKey': 'GET /pythag/{corner}'
         },
@@ -43,7 +43,7 @@ event = {
         'requestContext': {
             'http': {
                 'method': 'GET',
-                'path': '/python-lab/dc/7'
+                'path': '/dc/7'
             },
             'routeKey': 'GET /dc/{denom}'
         },
@@ -54,7 +54,7 @@ event = {
 }
 
 # Call the Lambda function handler
-result = lambda_handler(event.get('pythag'), None)
+result = lambda_handler(event.get('recip'), None)
 
 body = json.loads(result.get('body'))
 # Print the result

@@ -21,50 +21,65 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "headers": {"Content-type": "application/json"}
     }
-
     desc = ''
     data = []
+
+    route_handlers = {
+        '/phi': handle_phi,
+        '/dc': handle_dc,
+        '/recip': handle_recip,
+        '/pythag': handle_pythag,
+        '/': handle_root
+    }
+
+    for route, handler in route_handlers.items():
+        if path.startswith(route):
+            return handler(response, path_parameters)
+
     
-    if path.startswith('/phi'):
-        power = path_parameters.get('power', 1)
-        if power and power.isdigit():
-            power = int(power)
-            desc = f"phi to the power of {power}"
-            data = get_phi(int(power))
-            response['body'] = json.dumps({"description": desc, "data": data})
-        else:
-            response['statusCode'] = 400
-            response['body'] = json.dumps({"error": "Invalid power parameter"}) 
-
-    elif path.startswith('/dc'):
-        denom = path_parameters.get('denom', 1)
-        if denom:
-            denom = int(denom)
-            desc = f"decimal expansion for denominator {denom}"
-            data = []
-            for num in range(1, denom):
-                data.append(calc_decimal(num, denom, 10))
-            response['body'] = json.dumps({"description": desc, "data": data})
-
-    elif path.startswith('/recip'):
-        denom = path_parameters.get('denom', 1)
-        if denom:
-            denom = int(denom)
-            desc = f"decimal expansion for reciprocal of {denom}"
-            data = calc_decimal(1, denom, 10)
-            response['body'] = json.dumps({"description": desc, "data": data})
-
-    elif path.startswith('/pythag'):
-        corner = path_parameters.get('corner', 1)
-        if corner:
-            corner = int(corner)
-            desc = f"Pythagorean triples where c - b = {corner}"
-            data = get_pythag_by_corner(corner)
-            response['body'] = json.dumps({"description": desc, "data": data})
-
+def handle_phi(response, path_parameters):
+    power = path_parameters.get('power', 1)
+    if power and power.isdigit():
+        power = int(power)
+        desc = f"phi to the power of {power}"
+        data = get_phi(int(power))
+        response['body'] = json.dumps({"description": desc, "data": data})
     else:
-        response['statusCode'] = 404
-        response['body'] = json.dumps({"error": "Invalid path"})
-
-    # TODO implement
+        response['statusCode'] = 400
+        response['body'] = json.dumps({"error": "Invalid power parameter"}) 
     return response
+
+def handle_dc(response, path_parameters):
+    denom = path_parameters.get('denom', 1)
+    if denom:
+        denom = int(denom)
+        desc = f"decimal expansion for denominator {denom}"
+        data = []
+        for num in range(1, denom):
+            data.append(calc_decimal(num, denom, 10))
+        response['body'] = json.dumps({"description": desc, "data": data})
+    return response
+
+def handle_recip(response, path_parameters):
+    denom = path_parameters.get('denom', 1)
+    if denom:
+        denom = int(denom)
+        desc = f"decimal expansion for reciprocal of {denom}"
+        data = calc_decimal(1, denom, 10)
+        response['body'] = json.dumps({"description": desc, "data": data})
+    return response
+
+def handle_pythag(response, path_parameters):
+    corner = path_parameters.get('corner', 1)
+    if corner:
+        corner = int(corner)
+        desc = f"Pythagorean triples where c - b = {corner}"
+        data = get_pythag_by_corner(corner)
+        response['body'] = json.dumps({"description": desc, "data": data})
+    return response
+
+def handle_root(response, path_parameters):
+    response['statusCode'] = 404
+    response['body'] = json.dumps({"description": "Here's where we document the possible routes; e.g., dc, recip, pythag, phi."})
+    return response
+

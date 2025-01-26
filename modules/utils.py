@@ -1,6 +1,3 @@
-import os
-API_GATEWAY = os.environ.get('API_GATEWAY', '/python-lab')
-
 def normalize_event(event):
     """
     Normalizes the event object to a single consistent structure.
@@ -13,8 +10,6 @@ def normalize_event(event):
     # API Gateway HTTP API (browser or SDK invocation)
     if "requestContext" in event and "http" in event["requestContext"]:
         path = event["requestContext"]["http"]["path"]
-        if path.startswith(API_GATEWAY):
-            path = path[11:]  # Remove "/python-lab" prefix
         return {
             "method": event["requestContext"]["http"]["method"],
             "path": path,
