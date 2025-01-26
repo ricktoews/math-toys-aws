@@ -38,6 +38,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Package Lambda function into a zip file
+        run: |
+          zip -r lambda_function.zip lambda_function.py core.py modules/*  # Create the zip file containing Lambda code and dependencies
+
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -48,4 +52,4 @@ jobs:
       - name: Deploy Lambda function
         run: |
           # Add your Lambda deployment commands here, e.g., using AWS CLI, SAM, or Serverless framework
-          aws lambda update-function-code --function-name myLambdaFunction --zip-file fileb://function.zip
+          aws lambda update-function-code --function-name math-toy --zip-file fileb://lambda-function.zip
