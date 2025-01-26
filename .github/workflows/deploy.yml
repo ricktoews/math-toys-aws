@@ -1,35 +1,51 @@
-name: Deploy Lambda to AWS
+name: Lambda Deployment Workflow
 
 on:
   push:
     branches:
-      - master  # Trigger deployment when changes are pushed to the master branch
+      - master
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
-    environment: Deploy
 
     steps:
-    # Checkout the code
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    # Set up AWS CLI
-    - name: Set up AWS CLI
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # Specify the region where your Lambda function is hosted
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'  # Use the appropriate version of Python
 
-    # Create a zip file of your Lambda function code
-    - name: Create zip file for Lambda
-      run: |
-        zip -r lambda_function.zip lambda_function.py core.py modules/*  # Ensure this is the directory of your Lambda function
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
 
-    # Update the Lambda function with the new zip file
-    - name: Deploy to Lambda
-      run: |
-        aws lambda update-function-code --function-name math-toy --zip-file fileb://lambda_function.zip
+      - name: Run unit tests with pytest
+        run: |
+          source venv/bin/activate
+          pytest tests/ --maxfail=1 --disable-warnings -q
+        continue-on-error: false  # Stops workflow if tests fail
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test  # Ensure that this job only runs if the tests pass
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-east-1'
+
+      - name: Deploy Lambda function
+        run: |
+          # Add your Lambda deployment commands here, e.g., using AWS CLI, SAM, or Serverless framework
+          aws lambda update-function-code --function-name myLambdaFunction --zip-file fileb://function.zip
