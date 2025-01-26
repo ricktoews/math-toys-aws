@@ -8,17 +8,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Deploy
 
     steps:
     # Checkout the code
     - name: Checkout code
       uses: actions/checkout@v2
-
-    # Test if the credentials are being loaded correctly (optional)
-    - name: Test Secrets (Optional Debugging Step)
-      run: |
-        echo "AWS Access Key ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
-        echo "AWS Secret Access Key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
     # Set up AWS CLI
     - name: Set up AWS CLI
