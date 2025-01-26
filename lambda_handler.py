@@ -9,10 +9,22 @@ event = {
                 'method': 'GET',
                 'path': '/phi/26'
             },
-            'routeKey': 'GET /phi/{power}'
+            'routeKey': 'GET /phi/{up_to_power}'
         },
         'pathParameters': {
-            'power': '26'
+            'up_to_power': '26'
+        }
+    },
+    'phi_power': {
+        'requestContext': {
+            'http': {
+                'method': 'GET',
+                'path': '/phi_power/4'
+            },
+            'routeKey': 'GET /phi_power/{power}'
+        },
+        'pathParameters': {
+            'power': '4'
         }
     },
     'recip': {
@@ -54,7 +66,7 @@ event = {
 }
 
 # Call the Lambda function handler
-result = lambda_handler(event.get('recip'), None)
+result = lambda_handler(event.get('phi_power'), None)
 
 body = json.loads(result.get('body'))
 # Print the result

@@ -25,14 +25,36 @@ def get_phi(max: int):
         b = l
         diff = a_sqrt_5 - b
         row = { 
-            "nth": i,
+            "n": i,
+            "phi^1": (SQRT_5 + 1) / 2,
             "fraction": phi,
-            #"real": real,
+            "phi^n": real,
             "[a*V5, b]": [a_sqrt_5, b],
             "diff": diff,
-            "[F, L]": [f, l]
+            "[a, b]": [f, l]
         }
         rows.append(row)
+    return rows
+
+
+def get_phi_power(power: int):
+    rows = []
+    [f, l] = [fib(power), lucas(power, 1, 3)]
+    phi = "(%d V5 + %d) / 2" % (f, l)
+    real = (f * SQRT_5 + l) / 2
+    a_sqrt_5 = f * SQRT_5
+    b = l
+    diff = a_sqrt_5 - b
+    row = { 
+        "power": power,
+        "phi^1": (SQRT_5 + 1) / 2,
+        "fraction": phi,
+        "phi^power": real,
+        "[a*V5, b]": [a_sqrt_5, b],
+        "diff": diff,
+        "[a, b]": [f, l]
+    }
+    rows.append(row)
     return rows
 
 
