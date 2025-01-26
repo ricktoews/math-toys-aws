@@ -1,4 +1,5 @@
 name: Deploy Lambda to AWS
+run: echo "AWS Access Key ID: ${{ secrets.AWS_ACCESS_KEY_ID }} AWS Secret Access Key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
 on:
   push:
