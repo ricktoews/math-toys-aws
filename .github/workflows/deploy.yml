@@ -40,7 +40,7 @@ jobs:
 
       - name: Package Lambda function into a zip file
         run: |
-          zip -r lambda_function.zip lambda_function.py core.py modules/*  # Create the zip file containing Lambda code and dependencies
+          zip -r lambda-function.zip lambda_function.py core.py modules/*  # Create the zip file containing Lambda code and dependencies
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
