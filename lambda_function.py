@@ -42,7 +42,7 @@ def handle_phi(response, path_parameters):
     up_to_power = path_parameters.get('up_to_power', '1')
     if up_to_power and up_to_power.isdigit():
         up_to_power = int(up_to_power)
-        desc = f"Powers of phi, up to power {up_to_power}"
+        desc = f"Powers of Phi, up to power {up_to_power}"
         data = get_phi(int(up_to_power))
         response['body'] = json.dumps({"description": desc, "data": data})
     else:
