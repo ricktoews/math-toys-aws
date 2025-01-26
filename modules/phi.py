@@ -38,6 +38,7 @@ def get_phi(max: int):
 
 
 def get_phi_power(power: int):
+    print(f"====> modules/phi.py: get_phi_power")
     rows = []
     [f, l] = [fib(power), lucas(power, 1, 3)]
     phi = "(%d V5 + %d) / 2" % (f, l)

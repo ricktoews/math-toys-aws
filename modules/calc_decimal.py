@@ -1,11 +1,16 @@
 import math
 from modules.non_repeating import tally
         
-def calc_decimal(reduced_num, reduced_denom, base = 10):
+def calc_decimal(num, denom, base = 10):
+    common_factor = math.gcd(num, denom)
+    reduced_num = num // common_factor
+    reduced_denom = denom // common_factor
+
     section_list = ['', '', '']
     section_ndx = 0
         
     non_repeating = tally(reduced_denom, base)
+    print(f"====> from tally for {reduced_num} / {reduced_denom}", non_repeating)
     if (non_repeating == -1):
         non_repeating_tally = reduced_denom - 1
     else:   
@@ -30,11 +35,6 @@ def calc_decimal(reduced_num, reduced_denom, base = 10):
             # Store this digit; it'll be used to determine when/if the complement begins.
             start_repeat = step_remainder
     
-#       if base != 10:
-# Not sure what base_convert is. Do we need to write something in Python?
-#           section_list[section_ndx] += base_convert(step_digit, 10, base)
-#       else:
-        
         section_list[section_ndx] += str(step_digit)
     
         step_remainder = step_remainder * base - step_digit * reduced_denom
