@@ -26,7 +26,7 @@ jobs:
     # Create a zip file of your Lambda function code
     - name: Create zip file for Lambda
       run: |
-        zip -r lambda_function.zip .  # Ensure this is the directory of your Lambda function
+        zip -r lambda_function.zip lambda_function.py core.py modules/*  # Ensure this is the directory of your Lambda function
 
     # Update the Lambda function with the new zip file
     - name: Deploy to Lambda
