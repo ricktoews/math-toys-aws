@@ -5,6 +5,7 @@ sys.path.append('./modules')
 from utils import normalize_event
 from phi import phi_first_n
 from calc_decimal import calc_decimal
+from dc import get_expansions
 from phi import get_phi, get_phi_power
 from pythag import get_pythag_by_corner
 
@@ -37,9 +38,10 @@ def handle_dc(response, path_parameters):
     if denom:
         denom = int(denom)
         desc = f"Decimal expansion for denominator {denom}"
-        data = []
-        for num in range(1, denom):
-            data.append(calc_decimal(num, denom, 10))
+        #data = []
+        #for num in range(1, denom):
+        #    data.append(calc_decimal(num, denom, 10))
+        data = get_expansions(denom)
         response['body'] = json.dumps({"description": desc, "data": data})
     return response
 
@@ -74,7 +76,12 @@ def process_requests(event):
     path_parameters = normalized_event.get('pathParameters', {})
     response = {
         "statusCode": 200,
-        "headers": {"Content-type": "application/json"}
+        "headers": {
+            "Content-type": "application/json",
+            "Access-Control-Allow-Origin": "*",  # Your domain
+            "Access-Control-Allow-Methods": "GET, OPTIONS",  # Allow GET and preflight
+            "Access-Control-Allow-Headers": "Content-Type"  # Basic headers
+        }
     }
     desc = ''
     data = []
