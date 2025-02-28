@@ -20,9 +20,11 @@ def get_dc_14():
 
 def test_dc_2_14_repeating():
     body = get_dc_14()
-    check_2_14 = body["data"][1]
-    repeating_2_14 = check_2_14["repeating"]
-    assert repeating_2_14 == 6
+    data = body.get("data")
+    by_numerator = data.get("byNumerator")
+    check_2_14 = by_numerator["2"]
+    expansion_2_14 = check_2_14["expansion"]
+    assert expansion_2_14 == "142857"
 
 def scraps():
     check_1_14 = body["data"][0]
