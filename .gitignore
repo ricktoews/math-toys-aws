@@ -1,0 +1,12 @@
+# Python bytecode and cache
+__pycache__/
+*.pyc
+
+# macOS system files
+.DS_Store
+
+# Local development files
+local_server.py
+
+# Virtual environment
+.venv
