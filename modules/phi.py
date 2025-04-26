@@ -1,4 +1,4 @@
-from mathconst import SQRT_5
+from mathutils import SQRT_5
 
 def lucas(nth: int, a: int, b: int):
     for i in range(1, nth + 1):

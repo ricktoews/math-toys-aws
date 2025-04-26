@@ -4,8 +4,7 @@ sys.path.append('./modules')
 
 from utils import normalize_event
 from phi import phi_first_n
-from calc_decimal import calc_decimal
-from dc import get_expansions
+from dc import get_expansions, get_single_expansion
 from phi import get_phi, get_phi_power
 from pythag import get_pythag_by_corner
 
@@ -38,9 +37,6 @@ def handle_dc(response, path_parameters):
     if denom:
         denom = int(denom)
         desc = f"Decimal expansion for denominator {denom}"
-        #data = []
-        #for num in range(1, denom):
-        #    data.append(calc_decimal(num, denom, 10))
         data = get_expansions(denom)
         response['body'] = json.dumps({"description": desc, "data": data})
     return response
@@ -50,7 +46,7 @@ def handle_recip(response, path_parameters):
     if denom:
         denom = int(denom)
         desc = f"Decimal expansion for reciprocal of {denom}"
-        data = calc_decimal(1, denom, 10)
+        data = get_single_expansion(1, denom)
         response['body'] = json.dumps({"description": desc, "data": data})
     return response
 

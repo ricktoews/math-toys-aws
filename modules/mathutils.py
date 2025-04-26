@@ -1,8 +1,7 @@
+from primes import primes
 SQRT_5 = 5**.5
 PHI = (SQRT_5 + 1) / 2
 BASE = 10
-
-PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 183, 191, 193, 199]
 
 def is_relative_prime(a, b):
 	[a, b] = [min(a, b), max(a, b)]
@@ -13,7 +12,7 @@ def is_relative_prime(a, b):
 
 def is_prime(p):
 	_result = True
-	for prime in PRIMES:
+	for prime in primes:
 		if prime*prime > p:
 			break
 
@@ -24,9 +23,9 @@ def is_prime(p):
 
 
 def digits_to_expansion(data):
-    expansion = data['expansion']
-    position = data['position']
-    begin_repeat = data['beginRepeat']
+    expansion = data.get('expansion', '')
+    position = data.get('position', -1)
+    begin_repeat = data.get('beginRepeat', -1)
     
     digits = list(expansion)
     ndx = position - 1
