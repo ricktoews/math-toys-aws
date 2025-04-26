@@ -11,7 +11,7 @@ def test_reciprocal_7():
     response = process_requests(event.get('recip'))
     body = json.loads(response["body"])
     assert response["statusCode"] == 200
-    assert body["data"]["period"] == "142857"
+    assert body["data"]["expansion"] == "142857"
 
 def get_dc_14():
     response = process_requests(event.get('dc'))
