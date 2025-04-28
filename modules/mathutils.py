@@ -22,20 +22,17 @@ def is_prime(p):
 	return _result
 
 
-def digits_to_expansion(data):
-    expansion = data.get('expansion', '')
-    position = data.get('position', -1)
-    begin_repeat = data.get('beginRepeat', -1)
-    
-    digits = list(expansion)
-    ndx = position - 1
-    expansion_digits = []
-    
-    for i in range(len(digits)):
-        expansion_digits.append(digits[ndx])
-        ndx = (ndx + 1) % len(digits)
-    
-    return ''.join(expansion_digits)
+# Example:
+#   digits: '076923', ndx = 1
+#   returns '769230'
+# This function is called only when the denominator is a prime number with a repeating period.
+# The digits string is the period for the minimum numerator containing this group of digits.
+# Example, for the 13ths, there are two groups '076923' (1/13) and '153846' (2/13).
+# For 10/13, the decimal expansion is .769230... So the digits are '076023', and the ndx is 1,
+# since the expansion for this fraction uses the '076923' group but starts at zero-based ndx 1.
+def digits_to_expansion(digits, ndx):
+    period_digits = f"{digits[ndx:]}{digits[:ndx]}"
+    return period_digits
 
 
 def divide(num, denom):

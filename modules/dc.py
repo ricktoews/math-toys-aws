@@ -1,12 +1,16 @@
 from mathutils import divide, digits_to_expansion
 from primes import primes
 
-# Note on digits vs expansion:
-# The digits of the periods for the 7ths are 142857.
-# Each n/7 fraction uses these digits, regardless of which one the period begins with:
-# 1/7 = .142857... (Starts at position 1. So digits = '142857', expansion = '142857'.)
-# 2/7 = .285714... (Starts at position 3. So digits = '142857', expansion = '285714'.)
-# &c.
+# Example of what `divide` returns: divide(1, 7):
+# {'expansion': '142857', 'expansionNumerators': {1: 1, 3: 2, 2: 3, 6: 4, 4: 5, 5: 6}, 'beginRepeat': 1}
+# `expansionNumerators` is a table:
+#   key is a numerator, 
+#   value is the position at which the numerator's decimal expansion begins within `expansion`.
+# Example: 3/7 = .428571. It begins at position 2 within `expansion`, since 4 is the second digit in 142857.
+# For the 7ths, there is no need to calculate each decimal expansion, since all use the same digits,
+# just beginning at a different position. This is what `if num in by_numerator` detects.
+# Note that the short-circuiting of decimal expansion calculation is performed only for prime numbers.
+
 def get_expansions(denom):
     is_prime = denom in primes
     by_numerator = {}
@@ -14,8 +18,10 @@ def get_expansions(denom):
     
     for num in range(1, denom):
         # Check each numerator to see if it's already been calculated.
+        # This will usually be the case for prime denominators other than 2 and 5.
+        # This will never be the case for composite denominators or 2 or 5.
         if num in by_numerator:
-            by_numerator[num]['expansion'] = digits_to_expansion(by_numerator[num])
+            by_numerator[num]['expansion'] = digits_to_expansion(digits=by_numerator[num]['expansion'], ndx=by_numerator[num]['position'] - 1)
             continue
 
         # Calculate the expansion if it hasn't already been done
